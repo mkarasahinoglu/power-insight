@@ -7,7 +7,7 @@ export class FactoryListController {
 	constructor(private readonly factoryListService: FactoryListService) {}
 
 	@Get()
-	async getAllFactories() {
+	async getFactories() {
 		const factories = await this.factoryListService.getFactories()
 		return factories
 	}
