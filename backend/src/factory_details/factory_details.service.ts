@@ -25,4 +25,11 @@ export class FactoryDetailsService {
 		)
 		return updatedFactoryDetails
 	}
+
+	async sortColumn(id, columnName,orderType) {
+		const sortedFactoryDetails = await this.databaseServicePostgreSQL.query(
+			`SELECT * FROM factory_details WHERE factory_id=${id} ORDER BY ${columnName} ${orderType}`
+		)
+		return sortedFactoryDetails.rows
+	}
 }

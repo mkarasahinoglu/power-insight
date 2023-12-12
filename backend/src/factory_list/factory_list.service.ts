@@ -25,4 +25,11 @@ export class FactoryListService {
 		)
 		return updatedFactory
 	}
+
+	async sortColumn(columnName,orderType) {
+		const sortedFactoryList = await this.databaseServicePostgreSQL.query(
+			`SELECT * FROM factory_list ORDER BY ${columnName} ${orderType}`
+		)
+		return sortedFactoryList.rows
+	}
 }

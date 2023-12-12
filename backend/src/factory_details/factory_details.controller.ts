@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body } from "@nestjs/common"
+import { Controller, Get, Post, Param, Body, Query } from "@nestjs/common"
 import { FactoryDetailsService } from "./factory_details.service"
 import { UpdateFactoryDetailsDto } from "./dto/updateFactoryDetails.dto"
 
@@ -17,5 +17,12 @@ export class FactoryDetailsController{
     console.log(updateFactoryDetailsDto)
     const updatedFactoryDetails = await this.factoryDetailsService.updateFactoryDetails(id,updateFactoryDetailsDto)
     return updatedFactoryDetails
+  }
+
+  @Get("sort")
+  async sortColumn(@Param("id") id:string, @Query() query:any) {
+    const {columnName, orderType}=query
+    const sortedFactoryDetails = await this.factoryDetailsService.sortColumn(id,columnName,orderType)
+    return sortedFactoryDetails
   }
 }

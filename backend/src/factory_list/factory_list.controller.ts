@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body } from "@nestjs/common"
+import { Controller, Get, Post, Param, Body, Query } from "@nestjs/common"
 import { FactoryListService } from "./factory_list.service"
 import { UpdateFactoryDto } from "./dto/updateFactory.dto"
 
@@ -23,4 +23,11 @@ export class FactoryListController {
 		)
 		return updatedFactory
 	}
+
+	@Get("sort")
+  async sortColumn(@Query() query:any) {
+    const {columnName, orderType}=query
+    const sortedFactoryList = await this.factoryListService.sortColumn(columnName,orderType)
+    return sortedFactoryList
+  }
 }
