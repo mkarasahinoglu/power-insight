@@ -1,4 +1,3 @@
-// database.service.ts
 import { Injectable } from "@nestjs/common"
 import { Pool, Client } from "pg"
 
@@ -10,10 +9,10 @@ export class DatabaseServicePostgreSQL {
 	constructor() {
 		this.pool = new Pool({
 			connectionString:
-				"postgres://jitctjac:JW0-o9if_sbd06Ql1UNkuZzJCtgAWZzs@bubble.db.elephantsql.com/jitctjac"
+				process.env.POSTGRESQL_CONNECTION_STRING
 		})
 	}
-
+	
 	async query(query: string) {
 		this.client = await this.pool.connect()
 		try {

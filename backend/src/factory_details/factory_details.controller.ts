@@ -1,28 +1,20 @@
-import { Controller, Get, Post, Param, Body, Query } from "@nestjs/common"
+import { Controller, Get, Put, Param, Body, Query } from "@nestjs/common"
 import { FactoryDetailsService } from "./factory_details.service"
 import { UpdateFactoryDetailsDto } from "./dto/updateFactoryDetails.dto"
 
-@Controller("factories/:id/details")
+@Controller("factories/:factoryId/details")
 export class FactoryDetailsController{
   constructor(private readonly factoryDetailsService:FactoryDetailsService) {}
 
   @Get()
-  async getFactoryDetails(@Param("id") id:string) {
-    const factoryDetails = await this.factoryDetailsService.getFactoryDetails(id)
+  async getFactoryDetails(@Param("factoryId") factoryId:string) {
+    const factoryDetails = await this.factoryDetailsService.getFactoryDetails(factoryId)
     return factoryDetails
   }
 
-  @Post()
+  @Put(":id")
   async updateFactoryDetails(@Param("id") id:string, @Body() updateFactoryDetailsDto: UpdateFactoryDetailsDto) {
-    console.log(updateFactoryDetailsDto)
     const updatedFactoryDetails = await this.factoryDetailsService.updateFactoryDetails(id,updateFactoryDetailsDto)
     return updatedFactoryDetails
-  }
-
-  @Get("sort")
-  async sortColumn(@Param("id") id:string, @Query() query:any) {
-    const {columnName, orderType}=query
-    const sortedFactoryDetails = await this.factoryDetailsService.sortColumn(id,columnName,orderType)
-    return sortedFactoryDetails
   }
 }

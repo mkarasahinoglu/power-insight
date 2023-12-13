@@ -7,9 +7,9 @@ export class FactoryDetailsService {
 		private readonly databaseServicePostgreSQL: DatabaseServicePostgreSQL
 	) {}
 
-	async getFactoryDetails(id) {
+	async getFactoryDetails(factoryId) {
 		const factoryDetails = await this.databaseServicePostgreSQL.query(
-			`SELECT * FROM factory_details WHERE factory_id=${id}`
+			`SELECT * FROM factory_details WHERE factory_id=${factoryId}`
 		)
 		return factoryDetails.rows
 	}
@@ -21,15 +21,8 @@ export class FactoryDetailsService {
 			usage_kw='${updateFactoryDetailsDto.usage_kw}', 
 			usage_cost='${updateFactoryDetailsDto.usage_cost}', 
 			discount='${updateFactoryDetailsDto.discount}'
-			WHERE factory_id=${id}`
+			WHERE id=${id}`
 		)
 		return updatedFactoryDetails
-	}
-
-	async sortColumn(id, columnName,orderType) {
-		const sortedFactoryDetails = await this.databaseServicePostgreSQL.query(
-			`SELECT * FROM factory_details WHERE factory_id=${id} ORDER BY ${columnName} ${orderType}`
-		)
-		return sortedFactoryDetails.rows
 	}
 }

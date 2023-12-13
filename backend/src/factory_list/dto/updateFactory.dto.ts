@@ -1,3 +1,4 @@
+import { Type } from "class-transformer"
 import {
 	IsNotEmpty,
 	IsString,
@@ -13,10 +14,12 @@ export class UpdateFactoryDto {
 
 	@IsNotEmpty()
 	@IsDate()
+	@Type(()=>Date)
 	membership_start_date: Date
 
 	@IsNotEmpty()
 	@IsDate()
+	@Type(()=>Date)
 	membership_end_date: Date
 
 	@IsNotEmpty()
