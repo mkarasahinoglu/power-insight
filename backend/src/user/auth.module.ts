@@ -1,15 +1,19 @@
 import { Module, NestModule, RequestMethod, MiddlewareConsumer} from "@nestjs/common"
-import { UserController } from "./user.controller"
-import { UserService } from "./user.service"
+import { AuthController } from "./auth.controller"
+import { AuthService } from "./auth.service"
 import { DatabaseServiceElasticSearch } from "src/data/elasticsearch/elasticsearch.service"
 import { VerifyRegistration } from "src/middleware/VerifyRegistration"
+import { JwtModule } from "@nestjs/jwt"
 
 
 @Module({
-  controllers: [UserController],
-  providers: [UserService, DatabaseServiceElasticSearch]
+  imports: [JwtModule.register({
+    global:true
+  })],
+  controllers: [AuthController],
+  providers: [AuthService, DatabaseServiceElasticSearch]
 })
-export class UserModule implements NestModule {
+export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(VerifyRegistration).forRoutes({path: "users/register", method: RequestMethod.POST})
   }

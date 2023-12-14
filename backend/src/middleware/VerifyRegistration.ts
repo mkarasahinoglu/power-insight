@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware } from "@nestjs/common"
+import { Injectable, NestMiddleware, ConflictException } from "@nestjs/common"
 import { DatabaseServiceElasticSearch } from "src/data/elasticsearch/elasticsearch.service"
 import { Request, Response, NextFunction } from "express"
 
@@ -16,8 +16,7 @@ export class VerifyRegistration implements NestMiddleware {
     })
     
     if(user.hits.hits.length > 0) {
-      res.status(400).send("This email is already in use. Please try another email.")
-      return
+      throw new ConflictException("This email is already in use. Please try another email")
     }
 
     next()
