@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Param, Body, Query } from "@nestjs/common"
+import { Controller, Get, Put, Param, Body } from "@nestjs/common"
 import { FactoryListService } from "./factory_list.service"
 import { UpdateFactoryDto } from "./dto/updateFactory.dto"
 
