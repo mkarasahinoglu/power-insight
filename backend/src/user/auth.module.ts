@@ -4,6 +4,7 @@ import { AuthService } from "./auth.service"
 import { DatabaseServiceElasticSearch } from "src/data/elasticsearch/elasticsearch.service"
 import { VerifyRegistration } from "src/middleware/VerifyRegistration"
 import { JwtModule } from "@nestjs/jwt"
+import { TokenBlacklist } from "src/middleware/TokenBlackList"
 
 
 @Module({
@@ -11,10 +12,10 @@ import { JwtModule } from "@nestjs/jwt"
     global:true
   })],
   controllers: [AuthController],
-  providers: [AuthService, DatabaseServiceElasticSearch]
+  providers: [AuthService, DatabaseServiceElasticSearch, TokenBlacklist]
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(VerifyRegistration).forRoutes({path: "users/register", method: RequestMethod.POST})
+    consumer.apply(VerifyRegistration).forRoutes({path: "auth/register", method: RequestMethod.POST})
   }
 }

@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common"
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
 import { Reflector } from "@nestjs/core"
 import { JwtService } from "@nestjs/jwt"
 import { Request } from "express"
@@ -9,29 +9,45 @@ export class AuthGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService, private readonly reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass()
-    ])
-
-    if(isPublic) {
+    try {
+      const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+        context.getHandler(),
+        context.getClass()
+      ])
+  
+      if(isPublic) {
+        return true
+      }
+  
+      const req = context.switchToHttp().getRequest()
+      const accessToken = this.extractTokenFromHeader(req)
+      
+      if(!accessToken) {
+        throw new NotFoundException("Invalid Session")
+      }
+  
+      const decoded = await this.jwtService.verifyAsync(accessToken, {secret: process.env.ACCESS_TOKEN_KEY})
+      req["email"] = decoded.email
       return true
     }
-
-    const req = context.switchToHttp().getRequest()
-    const accessToken = this.extractTokenFromHeader(req)
-    
-    if(!accessToken) {
-      throw new UnauthorizedException("This session is invalid")
+    catch(err) {
+      throw new HttpException(
+        err?.message || "An unexpected error occured",
+        err?.status || HttpStatus.UNAUTHORIZED
+      )
     }
-
-    const email = await this.jwtService.verifyAsync(accessToken, {secret: process.env.ACCESS_TOKEN_KEY})
-    req["email"] = email
-    return true
   }
 
   private extractTokenFromHeader(req: Request):string | undefined {
-    const [type, accessToken] = req.headers.authorization?.split(" ") ?? []
+    try {
+      const [type, accessToken] = req.headers.authorization?.split(" ") ?? []
     return type === "Bearer" ? accessToken : undefined
+    }
+    catch(err) {
+      throw new HttpException(
+        err?.message,
+        err?.status
+      )
+    }
   }
 }
