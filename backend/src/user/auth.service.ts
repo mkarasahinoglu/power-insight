@@ -51,7 +51,9 @@ export class AuthService{
         throw new NotFoundException("Email or password is incorrect")
       }
   
-      const hashedPassword = (user.hits.hits[0]._source as CreateUserDto).password
+      const foundUser = (user.hits.hits[0]._source as CreateUserDto)
+      const userName = foundUser.name
+      const hashedPassword = foundUser.password
       const isMatch = await bcrypt.compare(password, hashedPassword)
   
       if(!isMatch) {
@@ -72,7 +74,7 @@ export class AuthService{
         }
       )
   
-      return { accessToken, refreshToken }
+      return { userName, accessToken, refreshToken }
     }
     catch (err) {
       throw new HttpException(
@@ -96,7 +98,7 @@ export class AuthService{
         }
       )
     
-      return newAccessToken
+      return { newAccessToken }
     }
     catch (err) {
       throw new HttpException(

@@ -2,7 +2,7 @@ import { Controller, Post, Body, HttpException } from "@nestjs/common"
 import { AuthService } from "./auth.service"
 import { CreateUserDto } from "./dto/createUser.dto"
 import { SignInUserDto } from "./dto/signInUser.dto"
-import { Public } from "src/Utils/constants"
+import { Public } from "src/utils/constants"
 import { SignOutUserDto } from "./dto/signOutUser.dto"
 
 @Controller("auth")
@@ -29,8 +29,8 @@ export class AuthController {
   @Post("signin")
   async signInUser(@Body() signInUserDto: SignInUserDto) {
     try {
-      const { accessToken, refreshToken } = await this.authService.signInUser(signInUserDto.email, signInUserDto.password)
-      return { accessToken, refreshToken }
+      const { userName, accessToken, refreshToken } = await this.authService.signInUser(signInUserDto.email, signInUserDto.password)
+      return { userName, accessToken, refreshToken }
     }
     catch (err) {
       throw new HttpException(

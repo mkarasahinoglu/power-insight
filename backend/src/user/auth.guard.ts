@@ -1,8 +1,8 @@
-import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common"
 import { Reflector } from "@nestjs/core"
 import { JwtService } from "@nestjs/jwt"
 import { Request } from "express"
-import { IS_PUBLIC_KEY } from "src/Utils/constants"
+import { IS_PUBLIC_KEY } from "src/utils/constants"
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
       const accessToken = this.extractTokenFromHeader(req)
       
       if(!accessToken) {
-        throw new NotFoundException("Invalid Session")
+        throw new UnauthorizedException("Invalid Session")
       }
   
       const decoded = await this.jwtService.verifyAsync(accessToken, {secret: process.env.ACCESS_TOKEN_KEY})
@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
   private extractTokenFromHeader(req: Request):string | undefined {
     try {
       const [type, accessToken] = req.headers.authorization?.split(" ") ?? []
-    return type === "Bearer" ? accessToken : undefined
+      return type === "Bearer" ? accessToken : undefined
     }
     catch(err) {
       throw new HttpException(
