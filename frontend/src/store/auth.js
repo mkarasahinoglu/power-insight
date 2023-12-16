@@ -7,7 +7,7 @@ export const authStore = defineStore('auth', {
     isLoggedin: JSON.parse(localStorage.getItem("user")) ? true:false,
     registerMessage: null,
     loginMessage: null,
-    currentUserName: "" 
+    currentUserName: (JSON.parse(localStorage.getItem("user")) || {}).name || ""
   }),
   getters: {
     nameRules: (state) => ({
