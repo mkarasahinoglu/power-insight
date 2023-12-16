@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="bg-black">
     <default-bar />
 
     <default-view />
