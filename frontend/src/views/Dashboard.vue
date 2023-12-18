@@ -3,12 +3,12 @@
 
     <v-card v-if="auth.isLoggedin" class="mt-10"
     flat
-    title="Dashboard"
+    :title="$t('message.dashboard')"
   >
     <template v-slot:text>
       <v-text-field
         v-model="search"
-        label="Search"
+        :label="$t('message.search')"
         prepend-inner-icon="mdi-magnify"
         single-line
         variant="outlined"
@@ -20,9 +20,10 @@
       :headers="headers"
       :items="factories"
       :search="search"
+      :items-per-page-text="$t('message.itemsPerPageText')"
     >
       <template v-slot:item.free_membership="{ item }">
-        <div class="text-center mr-6">
+        <div class="text-start">
           <v-chip
             :color="item.free_membership ? 'success' : 'black'"
             :text="item.free_membership ? 'free' : 'standard'"
@@ -49,12 +50,13 @@
 </template>
 
 <script setup>
-  import router from '@/router'
   import { authStore } from '@/store/auth'
   const auth = authStore()
   import { factoryStore } from '@/store/factory'
   const factory = factoryStore()
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted } from 'vue'
+  import { i18n } from '@/plugins/i18n'
+  const { t } = i18n.global
 
   let factories = ref([])
   let loading = ref(false)
@@ -67,11 +69,11 @@
       sortable: true,
       title: 'Id',
     },
-    { key: 'name', title: 'Factory' },
-    { key: 'membership_start_date', title: 'Membership Start Date' },
-    { key: 'membership_end_date', title: 'Membership End Date' },
-    { key: 'employee_count', title: 'Employees' },
-    { key: 'free_membership', title: 'Membership' },
+    { key: 'name', title: t("message.factory") },
+    { key: 'membership_start_date', title: t("message.membershipSD") },
+    { key: 'membership_end_date', title: t("message.membershipED") },
+    { key: 'employee_count', title: t("message.employeeCount") },
+    { key: 'free_membership', title: t("message.membership") },
     { key: 'actions', title: '', align: 'center', sortable: false }
   ])
 

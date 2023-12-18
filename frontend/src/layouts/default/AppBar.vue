@@ -19,7 +19,7 @@
           min-width="200"
         >
           <v-list-item
-            title="Dashboard"
+            :title="$t('message.dashboard')"
             append-icon="mdi-view-dashboard"
             @click="redirectDashboard"
             rounded
@@ -27,14 +27,14 @@
             
           ></v-list-item>
           <v-list-item
-            title="User Settings"
+            :title="$t('message.userSettings')"
             append-icon="mdi-cog"
             @click=""
             rounded
           >
           </v-list-item>
           <v-list-item
-            title="Sign Out"
+            :title="$t('message.logout')"
             append-icon="mdi-logout"
             @click="handleSignout"
             rounded
@@ -77,6 +77,17 @@
       </v-menu>
 
     </v-btn>
+
+    <v-btn class="mt-2">
+      <v-icon size="large">mdi-web</v-icon>
+      <v-menu activator="parent">
+        <v-list class="text-white text-center" slim bg-color="black">
+          <v-list-item title="EN" rounded class="mb-2" @click="changeLanguage('en')"></v-list-item>
+          <v-list-item title="TR" rounded class="mb-2" @click="changeLanguage('tr')"></v-list-item>
+        </v-list>
+      </v-menu>
+    </v-btn>
+
   </v-app-bar>
 </template>
 
@@ -86,13 +97,17 @@
   import { useRouter } from 'vue-router'
   const router = useRouter()
 
-
   const redirectDashboard = () => {
-      router.push("/dashboard")
+    router.push("/dashboard")
   }
 
   const handleSignout = async () => {
     await auth.signout()
+    router.push("/")
   }
 
+  const changeLanguage = async (locale) => {
+    localStorage.setItem("locale", locale)
+    router.go()
+  }
 </script>

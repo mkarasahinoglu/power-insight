@@ -2,6 +2,8 @@ import { defineStore } from "pinia"
 import axios from "axios"
 import axiosInterceptor from "./axiosInterceptor"
 const API_URL = import.meta.env.VITE_API_BASE_URL + "/auth"
+import { i18n } from "@/plugins/i18n"
+const { t } = i18n.global
 
 export const authStore = defineStore('auth', {
   state: () => ({
@@ -39,19 +41,17 @@ export const authStore = defineStore('auth', {
         this.registerMessage = res.data
       }
       catch(err) {
-        let messages = ""
         if(err.response) {
           if(err.response.data.statusCode === 500) {
-            messages = "INTERNAL SERVER ERROR"
+            this.registerMessage = t("message.internalServerError")
           }
           else {
-            messages = err.response.data.message
+            this.registerMessage = t("message.registerError")
           }
         }
         else {
-          messages = err.message
+          this.registerMessage = t("message.networkError")
         }
-        this.registerMessage=Array.isArray(messages) ? messages : [messages]
       }
     },
   
@@ -82,19 +82,17 @@ export const authStore = defineStore('auth', {
 
       }
       catch(err) {
-        let messages = ""
         if(err.response) {
           if(err.response.data.statusCode === 500) {
-            messages = "INTERNAL SERVER ERROR"
+            this.loginMessage = t("message.internalServerError")
           }
           else {
-            messages = err.response.data.message
+            this.loginMessage = t("message.loginError")
           }
         }
         else {
-          messages = err.message
+          this.loginMessage = t("message.networkError")
         }
-        this.loginMessage=Array.isArray(messages) ? messages : [messages]
       }
     },
   

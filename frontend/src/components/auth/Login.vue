@@ -3,22 +3,22 @@
       <v-sheet width="500" class="pa-5 rounded">
         <v-form @submit.prevent="handleSignin" class="mb-6">
 
-          <v-text-field v-model="email" label="Email" variant="outlined"></v-text-field>
+          <v-text-field v-model="email" :label="$t('message.email')" variant="outlined"></v-text-field>
 
-          <v-text-field v-model="password" label="Password" type="password" variant="outlined"></v-text-field>
+          <v-text-field v-model="password" :label="$t('message.password')" type="password" variant="outlined"></v-text-field>
 
-          <v-checkbox v-model="rememberOption" label="Remember Me" type="checkbox"></v-checkbox>
+          <v-checkbox v-model="rememberOption" :label="$t('message.rememberMe')" type="checkbox"></v-checkbox>
 
           <v-btn class="me-4" type="submit">
-            login
+            {{ $t("message.login") }}
           </v-btn>
 
         </v-form>
         
-        <v-alert v-for="message in auth.loginMessage"   class="ma-2 pa-2 elevation-1" style="font-size: 12px;" variant="outlined" type="warning" v-show="auth.loginMessage!==''&&auth.loginMessage!==true">
-          {{ message.toUpperCase() }}
+        <v-alert class="ma-2 pa-2 elevation-1" style="font-size: 12px;" variant="outlined" type="warning" v-show="auth.loginMessage!==null&&auth.loginMessage!==true">
+          {{ auth.loginMessage }}
         </v-alert>
-        
+
       </v-sheet>
   </v-container>
 </template>
@@ -43,6 +43,7 @@ const handleSignin = async () => {
   }
   
   await auth.signin(signInUser,rememberOption.value)
+  
   router.push('/')  
 }
 

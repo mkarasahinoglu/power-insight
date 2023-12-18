@@ -5,12 +5,14 @@ import router from "@/router"
 import { refreshToken } from "./auth"
 import { useErrorStore } from "./error"
 const errorStore = useErrorStore()
+import { i18n } from "@/plugins/i18n"
+const { t } = i18n.global
 
 axiosInterceptor.interceptors.response.use((response) => response,
   async (error) => {
     if (error?.response?.status === 401) {
       const newAccessToken = await refreshToken(() => {
-          errorStore.handleError("Session timed out")
+          errorStore.handleError(t("message.sessionTimeOut"))
           router.push("/")
         }
       )
@@ -22,10 +24,13 @@ axiosInterceptor.interceptors.response.use((response) => response,
     }
 
     if(error?.response?.status === 500) {
-      errorStore.handleError("Internal Server Error")
+      errorStore.handleError(t("message.internalServerError"))
     }
     else if (error?.response?.status === 403) {
-      errorStore.handleError("Session timed out")
+      errorStore.handleError(t("message.sessionTimeOut"))
+    }
+    else if(error?.response?.status === 401) {
+      errorStore.handleError(t("message.sessionTimeOut"))
     }
     else {
       errorStore.handleError(error.message)

@@ -6,10 +6,10 @@
           <v-sheet class="d-flex justify-center bg-black">
             <v-tabs v-model="tabChange">
               <v-tab>
-                Login
+                {{$t('message.login')}}
               </v-tab>
               <v-tab>
-                Register
+                {{$t('message.register')}}
               </v-tab>
             </v-tabs>
           </v-sheet>
@@ -28,7 +28,7 @@
         </v-col>
       </v-col>
     </v-row>
-    <h1 v-else>Welcome !</h1>
+    <h1 v-else>{{ $t("message.welcome") }}</h1>
   </v-container>
 </template>
 

@@ -3,28 +3,28 @@
       <v-sheet width="500" class="pa-5 rounded">
         <v-form @submit.prevent="handleRegister" class="mb-6">
 
-          <v-text-field class="mt-2" v-model="name" :rules="[auth.nameRules.min,auth.nameRules.noNumeric,auth.nameRules.required]" label="Name" variant="outlined"></v-text-field>
+          <v-text-field class="mt-2" v-model="name" :rules="[auth.nameRules.min,auth.nameRules.noNumeric,auth.nameRules.required]" :label="$t('message.name')" variant="outlined"></v-text-field>
 
-          <v-text-field class="mt-2" v-model="email" :rules="[auth.emailRules.email,auth.emailRules.required]" label="Email" variant="outlined"></v-text-field>
+          <v-text-field class="mt-2" v-model="email" :rules="[auth.emailRules.email,auth.emailRules.required]" :label="$t('message.email')" variant="outlined"></v-text-field>
 
-          <v-text-field class="mt-2" v-model="password" label="Password"
+          <v-text-field class="mt-2" v-model="password" :label="$t('message.password')"
             :rules="[auth.passwordRules.required,auth.passwordRules.length,auth.passwordRules.numeric,auth.passwordRules.uppercase]" 
             type="password" variant="outlined"></v-text-field>
 
-          <v-select class="mt-2" v-model="role" :items="['Admin','Editor']" label="Role" variant="outlined"></v-select>
+          <v-select class="mt-2" v-model="role" :items="['Admin','Editor']" :label="$t('message.role')" variant="outlined"></v-select>
 
           <v-btn class="me-4" type="submit">
-            register
+            {{ $t("message.register") }}
           </v-btn>
           
         </v-form>
         
-        <v-alert v-for="message in auth.registerMessage" class="ma-2 pa-2 elevation-1" style="font-size: 12px;" variant="outlined" type="warning" v-show="auth.registerMessage!==''&&auth.registerMessage!==true">
-          {{ message.toUpperCase() }}
+        <v-alert class="ma-2 pa-2 elevation-1" style="font-size: 12px;" variant="outlined" type="warning" v-show="auth.registerMessage!==null&&auth.registerMessage!==true">
+          {{ auth.registerMessage }}
         </v-alert>
       
-        <v-alert class="ma-2 pa-2 text-center elevation-1" style="font-size: 18px;" variant="outlined" type="success" v-show="auth.registerMessage===true">
-          REGISTRATION SUCCESSFUL
+        <v-alert class="ma-2 pa-2 elevation-1" style="font-size: 18px;" variant="outlined" type="success" v-show="auth.registerMessage===true">
+          {{ $t("message.registerSuccessful") }}
         </v-alert>
         
       </v-sheet>
