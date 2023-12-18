@@ -43,8 +43,7 @@ const handleSignin = async () => {
   }
   
   await auth.signin(signInUser,rememberOption.value)
-
-  router.push("/home")  
+  router.push('/')  
 }
 
 onMounted(() => {

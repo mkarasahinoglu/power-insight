@@ -3,7 +3,7 @@
       <v-sheet width="500" class="pa-5 rounded">
         <v-form @submit.prevent="handleRegister" class="mb-6">
 
-          <v-text-field  class="mt-2" v-model="name" :rules="[auth.nameRules.min,auth.nameRules.noNumeric,auth.nameRules.required]" label="Name" variant="outlined"></v-text-field>
+          <v-text-field class="mt-2" v-model="name" :rules="[auth.nameRules.min,auth.nameRules.noNumeric,auth.nameRules.required]" label="Name" variant="outlined"></v-text-field>
 
           <v-text-field class="mt-2" v-model="email" :rules="[auth.emailRules.email,auth.emailRules.required]" label="Email" variant="outlined"></v-text-field>
 
@@ -19,7 +19,7 @@
           
         </v-form>
         
-        <v-alert v-for="message in auth.registerMessage"   class="ma-2 pa-2 elevation-1" style="font-size: 12px;" variant="outlined" type="warning" v-show="auth.registerMessage!==''&&auth.registerMessage!==true">
+        <v-alert v-for="message in auth.registerMessage" class="ma-2 pa-2 elevation-1" style="font-size: 12px;" variant="outlined" type="warning" v-show="auth.registerMessage!==''&&auth.registerMessage!==true">
           {{ message.toUpperCase() }}
         </v-alert>
       

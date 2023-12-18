@@ -34,82 +34,103 @@ export const authStore = defineStore('auth', {
   actions: {
 
     async register(user) {
-      return await axios.post(API_URL + "/register",
-        user
-      ).then(res => {
-        if(res.data) {
-          this.registerMessage=true
+      try {
+        const res = await axios.post(API_URL + "/register", user)
+        this.registerMessage = res.data
+      }
+      catch(err) {
+        let messages = ""
+        if(err.response) {
+          if(err.response.data.statusCode === 500) {
+            messages = "INTERNAL SERVER ERROR"
+          }
+          else {
+            messages = err.response.data.message
+          }
         }
-      }).catch(err=> {
-        const messages = err.response.data.message
+        else {
+          messages = err.message
+        }
         this.registerMessage=Array.isArray(messages) ? messages : [messages]
-      })
+      }
     },
   
     async signin(user,rememberOption) {
-      return await axios.post(API_URL + "/signin", {
-        email: user.email,
-        password: user.password
-      }).then(res => {
-        if(res.data.accessToken && res.data.refreshToken) {
-          localStorage.setItem("user", JSON.stringify({
-            email: user.email,
-            name: res.data.userName,
-            accessToken: res.data.accessToken,
-            refreshToken: res.data.refreshToken
-          }))
-          if(rememberOption) {
-            localStorage.setItem("rememberUser",JSON.stringify({email:user.email, password: user.password}))
+      try {
+        const res = await axios.post(API_URL + "/signin", {
+          email: user.email,
+          password: user.password
+        })
+
+        localStorage.setItem("user", JSON.stringify({
+          email: user.email,
+          name: res.data.userName,
+          role: res.data.userRole,
+          accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken
+        }))
+
+        if(rememberOption) {
+          localStorage.setItem("rememberUser",JSON.stringify({email:user.email, password: user.password}))
+        }
+        else {
+          localStorage.removeItem("rememberUser")
+        }
+
+        this.currentUserName = res.data.userName
+        this.isLoggedin = true
+
+      }
+      catch(err) {
+        let messages = ""
+        if(err.response) {
+          if(err.response.data.statusCode === 500) {
+            messages = "INTERNAL SERVER ERROR"
           }
           else {
-            localStorage.removeItem("rememberUser")
+            messages = err.response.data.message
           }
-          this.currentUserName = res.data.userName
-          this.isLoggedin = true
         }
-      }).catch(err => {
-        const messages = err.response.data.message
+        else {
+          messages = err.message
+        }
         this.loginMessage=Array.isArray(messages) ? messages : [messages]
-      })
+      }
     },
   
     async signout() {
-      const user = JSON.parse(localStorage.getItem("user"))
-      
-      return await axiosInterceptor.post(API_URL + "/signout", {
-        email: user.email,
-        refreshToken: user.refreshToken
-      }).then(res => {
-        if(res) {
-          localStorage.removeItem("user")
-          this.currentUserName = ""
-          this.isLoggedin = false
-        }
-      }).catch(err => {
-        Promise.reject(err)
-      })
-    },
+        const user = JSON.parse(localStorage.getItem("user"))
+        await axiosInterceptor.post(API_URL + "/signout", {
+          email: user.email,
+          refreshToken: user.refreshToken
+        })
+        localStorage.removeItem("user")
+        this.currentUserName = ""
+        this.isLoggedin = false
+    }
   }
 })
 
 export const refreshToken= async (redirectCallBack) => {
   const auth = authStore()
-  let existingUser = JSON.parse(localStorage.getItem("user"))
-  if(!existingUser) auth.isLoggedin = false
-  return await axios.post(API_URL + "/refreshToken",
-    {refreshToken: existingUser.refreshToken}
-  ).then(res => {
-    if(res.data.newAccessToken) {
-      existingUser.accessToken = res.data.newAccessToken
-      const updatedUser = JSON.stringify(existingUser)
-      localStorage.setItem("user", updatedUser)
-      return existingUser.accessToken
+  try {
+    let existingUser = JSON.parse(localStorage.getItem("user"))
+    if(!existingUser) {
+      auth.isLoggedin = false
     }
-  }).catch(err => {
+    const res = await axiosInterceptor.post(API_URL + "/refreshToken",
+      {refreshToken: existingUser.refreshToken}
+    )
+    existingUser.accessToken = res.data.newAccessToken
+    const updatedUser = JSON.stringify(existingUser)
+    localStorage.setItem("user", updatedUser)
+    return existingUser.accessToken
+  }
+  catch(err) {
     localStorage.removeItem("user")
     auth.isLoggedin = false
     if(redirectCallBack) {
       redirectCallBack()
     }
-  })
+  }
 }

@@ -7,12 +7,8 @@ export const factoryStore = defineStore('factory', {
   }),
   actions: {
     async getFactories() {
-      return await axiosInterceptor.get(API_URL
-      ).then(res => {
-        return res.data
-      }).catch(err => {
-        Promise.reject(err)
-      })
+        const factories = await axiosInterceptor.get(API_URL)
+        return factories?.data
     }
   }
 })

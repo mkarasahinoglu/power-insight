@@ -1,10 +1,10 @@
 <template>
   <v-app-bar flat class="bg-black d-flex align-center">
     <v-app-bar-title class="mt-2 d-none d-sm-flex">
-      <v-img src="/src/assets/logo.png" :width="200" aspect-ratio="16/9" cover class="pa-2" @click="router.push('/home')"></v-img>
+      <v-img src="/src/assets/logo.png" :width="200" aspect-ratio="16/9" cover class="pa-2" @click="router.push('/')"></v-img>
     </v-app-bar-title>
     <v-app-bar-title class="mt-2 d-flex d-sm-none" :width="50" style="min-width: 50px;">
-      <v-img src="../../../public/favicon.ico" :width="50" aspect-ratio="1" cover class="pa-2" @click="router.push('/home')"></v-img>
+      <v-img src="../../../public/favicon.ico" :width="50" aspect-ratio="1" cover class="pa-2" @click="router.push('/')"></v-img>
     </v-app-bar-title>
     <v-spacer></v-spacer>
     <v-btn v-if="auth.isLoggedin" class="mt-2 d-none d-sm-flex">
@@ -86,14 +86,13 @@
   import { useRouter } from 'vue-router'
   const router = useRouter()
 
+
   const redirectDashboard = () => {
-    console.log(router.push("/dashboard"))
-    router.push("/dashboard")
+      router.push("/dashboard")
   }
 
   const handleSignout = async () => {
     await auth.signout()
-    router.push("/")
   }
 
 </script>

@@ -8,11 +8,6 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'LandingPage',
-        component: () => import('@/views/LandingPage.vue')
-      },
-      {
-        path: 'home',
         name: 'Home',
         component: () => import('@/views/Home.vue')
       },

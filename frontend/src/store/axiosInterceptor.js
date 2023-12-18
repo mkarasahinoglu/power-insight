@@ -3,21 +3,33 @@ const axiosInterceptor = axios.create()
 
 import router from "@/router"
 import { refreshToken } from "./auth"
-
+import { useErrorStore } from "./error"
+const errorStore = useErrorStore()
 
 axiosInterceptor.interceptors.response.use((response) => response,
   async (error) => {
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
       const newAccessToken = await refreshToken(() => {
-        router.push("/")
+          errorStore.handleError("Session timed out")
+          router.push("/")
         }
       )
       if(newAccessToken) {
         error.config.headers.Authorization = `Bearer ${newAccessToken}`
+        errorStore.clearError()
         return axiosInterceptor(error.config)
       }
     }
-    Promise.reject(error);
+
+    if(error?.response?.status === 500) {
+      errorStore.handleError("Internal Server Error")
+    }
+    else if (error?.response?.status === 403) {
+      errorStore.handleError("Session timed out")
+    }
+    else {
+      errorStore.handleError(error.message)
+    }
 })
 
 axiosInterceptor.interceptors.request.use(
@@ -28,11 +40,11 @@ axiosInterceptor.interceptors.request.use(
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
     }
-
-    return config;
+    errorStore.clearError()
+    return config
   },
   (error) => {
-    Promise.reject(error);
+    errorStore.handleError(error.message)
   }
 )
 

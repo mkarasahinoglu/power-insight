@@ -76,12 +76,7 @@
   ])
 
   onMounted(async ()=> {
-    if(!auth.isLoggedin) {
-      await router.push("/")
-    }
-    else {
-      await getFactories()
-    }
+    await getFactories()
   })
 
   const getFactories = async () => {
