@@ -14,7 +14,7 @@ export class AuthController {
   async registerUser(@Body() createUserDto: CreateUserDto) {
     try {
       const registeredUser = await this.authService.registerUser(createUserDto)
-      return "User registered"
+      return registeredUser
     }
     catch(err) {
       throw new HttpException(
@@ -29,8 +29,8 @@ export class AuthController {
   @Post("signin")
   async signInUser(@Body() signInUserDto: SignInUserDto) {
     try {
-      const { userName, accessToken, refreshToken } = await this.authService.signInUser(signInUserDto.email, signInUserDto.password)
-      return { userName, accessToken, refreshToken }
+      const { userName, userRole, accessToken, refreshToken } = await this.authService.signInUser(signInUserDto.email, signInUserDto.password)
+      return { userName, userRole, accessToken, refreshToken }
     }
     catch (err) {
       throw new HttpException(

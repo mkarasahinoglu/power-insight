@@ -17,7 +17,7 @@ export class AuthService{
     try {
       const saltRounds = parseInt(process.env.SALT_ROUNDS)
       const hashedPassword =  await bcrypt.hash(createUserDto.password, saltRounds)
-      const registeredUser = await this.databaseServiceElasticSearch.getClient().index({
+      await this.databaseServiceElasticSearch.getClient().index({
         index: "users",
         document: {
           name: createUserDto.name,
@@ -26,11 +26,11 @@ export class AuthService{
           role: createUserDto.role
         }
       })
-      return registeredUser
+      return true
     }
     catch (err) {
       throw new HttpException(
-        err?.message || "An unexpected error occured",
+        err?.message || "An unexpected error occurred",
         err?.status || HttpStatus.INTERNAL_SERVER_ERROR
       )
     }
@@ -53,6 +53,7 @@ export class AuthService{
   
       const foundUser = (user.hits.hits[0]._source as CreateUserDto)
       const userName = foundUser.name
+      const userRole = foundUser.role
       const hashedPassword = foundUser.password
       const isMatch = await bcrypt.compare(password, hashedPassword)
   
@@ -74,11 +75,11 @@ export class AuthService{
         }
       )
   
-      return { userName, accessToken, refreshToken }
+      return { userName, userRole, accessToken, refreshToken }
     }
     catch (err) {
       throw new HttpException(
-        err?.message || "An unexpected error occured",
+        err?.message || "An unexpected error occurred",
         err?.status || HttpStatus.INTERNAL_SERVER_ERROR
       )
     }
@@ -103,7 +104,7 @@ export class AuthService{
     catch (err) {
       throw new HttpException(
         err?.message || "An unexpected error occurred",
-        err?.status || HttpStatus.UNAUTHORIZED
+        err?.status || HttpStatus.FORBIDDEN
       )
     }
   }
@@ -115,7 +116,7 @@ export class AuthService{
     }
     catch(err) {
       throw new HttpException(
-        err?.message || "An Unexpected error occurred",
+        err?.message || "An unexpected error occurred",
         err?.status || HttpStatus.INTERNAL_SERVER_ERROR
       )
     }

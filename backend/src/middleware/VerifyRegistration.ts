@@ -17,7 +17,7 @@ export class VerifyRegistration implements NestMiddleware {
       })
       
       if(user.hits.hits.length > 0) {
-        throw new ConflictException("This email is already in use. Please try another email")
+        throw new ConflictException("This email is already in use")
       }
   
       next()
