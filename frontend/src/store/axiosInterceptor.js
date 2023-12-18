@@ -28,9 +28,11 @@ axiosInterceptor.interceptors.response.use((response) => response,
     }
     else if (error?.response?.status === 403) {
       errorStore.handleError(t("message.sessionTimeOut"))
+      router.push("/")
     }
     else if(error?.response?.status === 401) {
       errorStore.handleError(t("message.sessionTimeOut"))
+      router.push("/")
     }
     else {
       errorStore.handleError(error.message)

@@ -33,15 +33,19 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-import { authStore, refreshToken } from "@/store/auth"
-const auth = authStore()
-const tabChange = ref(false)
-import RegisterComp from "../components/auth/Register.vue"
-import LoginComp from "../components/auth/Login.vue"
-import { onMounted } from "vue"
+  import { ref } from "vue"
+  import { authStore, refreshToken } from "@/store/auth"
+  const auth = authStore()
+  const tabChange = ref(false)
+  import RegisterComp from "../components/auth/Register.vue"
+  import LoginComp from "../components/auth/Login.vue"
+  import { onBeforeMount } from "vue"
+  import { useRouter } from "vue-router"
+  const router = useRouter()
 
-onMounted(async () => {
-  await refreshToken()
-})
+  onBeforeMount(async () => {
+    await refreshToken(() => {
+      router.push("/")
+    })
+  })
 </script>

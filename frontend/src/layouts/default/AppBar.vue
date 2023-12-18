@@ -21,7 +21,7 @@
           <v-list-item
             :title="$t('message.dashboard')"
             append-icon="mdi-view-dashboard"
-            @click="redirectDashboard"
+            @click="redirectPage('/dashboard')"
             rounded
             class="mb-2"
             
@@ -29,7 +29,7 @@
           <v-list-item
             :title="$t('message.userSettings')"
             append-icon="mdi-cog"
-            @click=""
+            @click="redirectPage('/settings')"
             rounded
           >
           </v-list-item>
@@ -57,13 +57,13 @@
         >
           <v-list-item
             append-icon="mdi-view-dashboard"
-            @click="redirectDashboard"
+            @click="redirectPage('/dashboard')"
             rounded
             class="mb-2"
           ></v-list-item>
           <v-list-item
             append-icon="mdi-cog"
-            @click=""
+            @click="redirectPage('/settings')"
             rounded
           >
           </v-list-item>
@@ -97,8 +97,8 @@
   import { useRouter } from 'vue-router'
   const router = useRouter()
 
-  const redirectDashboard = () => {
-    router.push("/dashboard")
+  const redirectPage = (path) => {
+    router.push(path)
   }
 
   const handleSignout = async () => {

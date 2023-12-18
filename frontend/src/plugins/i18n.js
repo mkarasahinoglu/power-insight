@@ -8,6 +8,7 @@ export const i18n = createI18n ({
     en : {
       message: {
         welcome: "Welcome !",
+        userInfo: "User Information",
         login: "Login",
         loginError: "Email or password is incorrect",
         email: "Email",
@@ -36,6 +37,7 @@ export const i18n = createI18n ({
     tr : {
       message: {
         welcome: "Hoşgeldin !",
+        userInfo: "Kullanıcı Bilgileri",
         login: "Giriş Yap",
         loginError: "E-posta veya şifre yanlış",
         email: "E-posta",
