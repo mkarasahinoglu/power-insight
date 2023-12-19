@@ -31,7 +31,18 @@ export const i18n = createI18n ({
         employeeCount: "Employees",
         membership: "Membership",
         search: "Search",
-        itemsPerPageText: "Items per page:"
+        itemsPerPageText: "Items per page:",
+        loading: "Loading",
+        noDataAvailable: "No data available",
+        add: "Add",
+        edit: "Edit",
+        free: "Free",
+        standard: "Standard",
+        save: "Save",
+        cancel: "Cancel",
+        formatError: "Please review fields",
+        delete: "Delete",
+        ensure: "Are you sure?"
       }
     },
     tr : {
@@ -57,10 +68,21 @@ export const i18n = createI18n ({
         factory: "Fabrika",
         membershipSD: "Üyelik Başlangıcı",
         membershipED: "Üyelik Bitişi",
-        employeeCount: "Çalışanlar",
+        employeeCount: "Çalışan Sayısı",
         membership: "Üyelik",
         search: "Ara",
-        itemsPerPageText: "Sayfa başına öğe:"
+        itemsPerPageText: "Sayfa başına öğe:",
+        loading: "Yükleniyor",
+        noDataAvailable: "Veri bulunamadı",
+        add: "Ekle",
+        edit: "Düzenle",
+        free: "Ücretsiz",
+        standard: "Standart",
+        save: "Kaydet",
+        cancel: "Vazgeç",
+        formatError: "Lütfen alanları kontrol ediniz",
+        delete: "Sil",
+        ensure: "Emin misiniz?"
       }
     }
   }

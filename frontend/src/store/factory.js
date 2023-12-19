@@ -7,8 +7,36 @@ export const factoryStore = defineStore('factory', {
   }),
   actions: {
     async getFactories() {
-        const factories = await axiosInterceptor.get(API_URL)
-        return factories?.data
+      const factories = await axiosInterceptor.get(API_URL)
+      return factories?.data
+    },
+    async updateFactory(factoryId, updateFactoryModel) {
+      const updatedFactory = await axiosInterceptor.put(API_URL + `/${factoryId.value}`, { 
+        name: updateFactoryModel.name,
+        membership_start_date: `${updateFactoryModel.membership_start_date}`,
+        membership_end_date: `${updateFactoryModel.membership_end_date}`,
+        employee_count: parseInt(updateFactoryModel.employee_count),
+        free_membership: updateFactoryModel.free_membership
+      })
+      return !!updatedFactory
+    },
+    async createFactory(createFactoryModel) {
+      const createdFactory = await axiosInterceptor.post(API_URL, {
+        name: createFactoryModel.name,
+        membership_start_date: `${createFactoryModel.membership_start_date}`,
+        membership_end_date: `${createFactoryModel.membership_end_date}`,
+        employee_count: parseInt(createFactoryModel.employee_count),
+        free_membership: createFactoryModel.free_membership
+      })
+      return !!createdFactory
+    },
+    async deleteFactory(factoryId) {
+      const deletedFactory = await axiosInterceptor.delete(API_URL + `/${factoryId}`)
+      return !!deletedFactory
+    },
+    async getFactoryDetails(factoryId) {
+      const factoryDetails = await axiosInterceptor.get(API_URL + `/${factoryId}` + "/details")
+      console.log(factoryDetails?.data)
     }
   }
 })

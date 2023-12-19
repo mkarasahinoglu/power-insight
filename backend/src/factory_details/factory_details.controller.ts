@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Param, Body } from "@nestjs/common"
+import { Controller, Get, Put, Param, Body, HttpException } from "@nestjs/common"
 import { FactoryDetailsService } from "./factory_details.service"
 import { UpdateFactoryDetailsDto } from "./dto/updateFactoryDetails.dto"
 
@@ -8,13 +8,29 @@ export class FactoryDetailsController{
 
   @Get()
   async getFactoryDetails(@Param("factoryId") factoryId:string) {
-    const factoryDetails = await this.factoryDetailsService.getFactoryDetails(factoryId)
-    return factoryDetails
+    try {
+      const factoryDetails = await this.factoryDetailsService.getFactoryDetails(factoryId)
+      return factoryDetails
+    }
+    catch(err) {
+      throw new HttpException(
+        err.message,
+        err.status
+      )
+    }
   }
 
   @Put(":id")
   async updateFactoryDetails(@Param("id") id:string, @Body() updateFactoryDetailsDto: UpdateFactoryDetailsDto) {
-    const updatedFactoryDetails = await this.factoryDetailsService.updateFactoryDetails(id,updateFactoryDetailsDto)
-    return updatedFactoryDetails
+    try {
+      const updatedFactoryDetails = await this.factoryDetailsService.updateFactoryDetails(id,updateFactoryDetailsDto)
+      return updatedFactoryDetails
+    }
+    catch(err) {
+      throw new HttpException(
+        err.message,
+        err.status
+      )
+    }
   }
 }

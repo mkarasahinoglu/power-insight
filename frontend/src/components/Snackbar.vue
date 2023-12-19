@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="snackbar" color="warning" variant="outlined" rounded>
+  <v-snackbar v-model="snackbar" color="warning" variant="flat" rounded>
      <span class="d-flex justify-center">{{errorMessage}}</span>
   </v-snackbar>
 </template>

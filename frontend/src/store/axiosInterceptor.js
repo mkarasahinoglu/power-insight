@@ -18,7 +18,7 @@ axiosInterceptor.interceptors.response.use((response) => response,
       )
       if(newAccessToken) {
         error.config.headers.Authorization = `Bearer ${newAccessToken}`
-        errorStore.clearError()
+        
         return axiosInterceptor(error.config)
       }
     }
@@ -34,6 +34,9 @@ axiosInterceptor.interceptors.response.use((response) => response,
       errorStore.handleError(t("message.sessionTimeOut"))
       router.push("/")
     }
+    else if(error?.response?.status === 400) {
+      errorStore.handleError(t("message.formatError"))
+    }
     else {
       errorStore.handleError(error.message)
     }
@@ -47,7 +50,7 @@ axiosInterceptor.interceptors.request.use(
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
     }
-    errorStore.clearError()
+    
     return config
   },
   (error) => {

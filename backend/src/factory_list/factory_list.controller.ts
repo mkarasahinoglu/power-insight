@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Param, Body } from "@nestjs/common"
+import { Controller, Get, Put, Param, Body, HttpException, Post, Delete } from "@nestjs/common"
 import { FactoryListService } from "./factory_list.service"
 import { UpdateFactoryDto } from "./dto/updateFactory.dto"
 
@@ -8,8 +8,16 @@ export class FactoryListController {
 
 	@Get()
 	async getFactories() {
-		const factories = await this.factoryListService.getFactories()
-		return factories
+		try {
+			const factories = await this.factoryListService.getFactories()
+			return factories
+		}
+		catch(err) {
+			throw new HttpException(
+        err.message,
+        err.status
+      )
+		}
 	}
 
 	@Put(":id")
@@ -17,10 +25,50 @@ export class FactoryListController {
 		@Param("id") id: string,
 		@Body() updateFactoryDto: UpdateFactoryDto
 	) {
-		const updatedFactory = await this.factoryListService.updateFactory(
-			id,
-			updateFactoryDto
-		)
-		return updatedFactory
+		try {
+			const updatedFactory = await this.factoryListService.updateFactory(
+				id,
+				updateFactoryDto
+			)
+			return updatedFactory
+		}
+		catch(err) {
+			throw new HttpException(
+        err.message,
+        err.status
+      )
+		}
+	}
+
+	@Post()
+	async createFactory(
+		@Body() updateFactoryDto: UpdateFactoryDto
+	) {
+		try {
+			const createdFactory = await this.factoryListService.createFactory(
+				updateFactoryDto
+			)
+			return createdFactory
+		}
+		catch(err) {
+			throw new HttpException(
+        err.message,
+        err.status
+      )
+		}
+	}
+
+	@Delete(":id")
+	async deleteFactory(@Param("id") id: string ) {
+		try {
+			const deletedFactory = await this.factoryListService.deleteFactory(id)
+			return deletedFactory
+		}
+		catch(err) {
+			throw new HttpException(
+        err.message,
+        err.status
+      )
+		}
 	}
 }
