@@ -11,4 +11,4 @@ Timus Fullstack Bootcamp Capstone Project
 - Axios
 - Pinia
 ## Project is currently live
-https://power-insight-frontend-mkarasahinoglus-projects.vercel.app/
+https://power-insight.vercel.app/
