@@ -2,7 +2,7 @@ import { Controller, Post, Body, HttpException } from "@nestjs/common"
 import { AuthService } from "./auth.service"
 import { CreateUserDto } from "./dto/createUser.dto"
 import { SignInUserDto } from "./dto/signInUser.dto"
-import { Public } from "src/utils/constants"
+import { Public } from "src/Utils/constants"
 import { SignOutUserDto } from "./dto/signOutUser.dto"
 
 @Controller("auth")
