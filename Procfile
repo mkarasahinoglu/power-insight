@@ -1,1 +1,0 @@
-web: npm run buildVue && npm run build
