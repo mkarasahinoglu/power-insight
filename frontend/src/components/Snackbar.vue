@@ -5,21 +5,20 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue'
-import { useErrorStore } from '@/store/error'
+  import { ref, watchEffect } from 'vue'
+  import { useErrorStore } from '@/store/error'
 
-const errorStore = useErrorStore()
-const snackbar = ref(false)
+  const errorStore = useErrorStore()
+  const snackbar = ref(false)
+  let errorMessage = ""
 
-watchEffect(() => {
-  snackbar.value = errorStore.getError !== null
-  if (snackbar.value) {
-    errorMessage = errorStore.getError
-    setTimeout(() => {
-      errorStore.clearError()
-    }, 5000)
-  }
-})
-
-let errorMessage = ""
+  watchEffect(() => {
+    snackbar.value = errorStore.getError !== null
+    if (snackbar.value) {
+      errorMessage = errorStore.getError
+      setTimeout(() => {
+        errorStore.clearError()
+      }, 5000)
+    }
+  })
 </script>

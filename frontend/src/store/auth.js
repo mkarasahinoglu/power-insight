@@ -34,7 +34,6 @@ export const authStore = defineStore('auth', {
     },
   },
   actions: {
-
     async register(user) {
       try {
         const res = await axios.post(API_URL + "/register", user)
@@ -54,14 +53,12 @@ export const authStore = defineStore('auth', {
         }
       }
     },
-  
     async signin(user,rememberOption) {
       try {
         const res = await axios.post(API_URL + "/signin", {
           email: user.email,
           password: user.password
         })
-
         localStorage.setItem("user", JSON.stringify({
           email: user.email,
           name: res.data.userName,
@@ -69,17 +66,14 @@ export const authStore = defineStore('auth', {
           accessToken: res.data.accessToken,
           refreshToken: res.data.refreshToken
         }))
-
         if(rememberOption) {
           localStorage.setItem("rememberUser",JSON.stringify({email:user.email, password: user.password}))
         }
         else {
           localStorage.removeItem("rememberUser")
         }
-
         this.currentUserName = res.data.userName
         this.isLoggedin = true
-
       }
       catch(err) {
         if(err.response) {
@@ -95,7 +89,6 @@ export const authStore = defineStore('auth', {
         }
       }
     },
-  
     async signout() {
         const user = JSON.parse(localStorage.getItem("user"))
         await axiosInterceptor.post(API_URL + "/signout", {

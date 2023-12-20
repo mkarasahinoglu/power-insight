@@ -28,7 +28,14 @@
         </v-col>
       </v-col>
     </v-row>
-    <h1 v-else>{{ $t("message.welcome") }}</h1>
+    <v-row v-else>
+      <v-col cols="12" class="d-flex justify-center mt-10">
+        <h1>{{ $t("message.welcome") }}</h1>
+      </v-col>
+      <v-col cols="12" class="d-flex justify-center">
+        <v-img src="../assets/home.png" aspect-ratio="1/1" max-height="500" min-height="50"></v-img>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

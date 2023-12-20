@@ -10,7 +10,6 @@
     <v-btn v-if="auth.isLoggedin" class="mt-2 d-none d-sm-flex">
       {{ auth.currentUserName }}
       <v-icon right size="xx-large" class="ml-2">mdi-account-box</v-icon>
-
       <v-menu activator="parent">
         <v-list
           class="text-end text-white"
@@ -24,7 +23,6 @@
             @click="redirectPage('/dashboard')"
             rounded
             class="mb-2"
-            
           ></v-list-item>
           <v-list-item
             :title="$t('message.userSettings')"
@@ -42,12 +40,9 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
     </v-btn>
-
     <v-btn v-if="auth.isLoggedin" class="mt-2 d-flex d-sm-none">
       <v-icon right size="xx-large" class="ml-2">mdi-account-box</v-icon>
-
       <v-menu activator="parent">
         <v-list
           class="text-white"
@@ -75,9 +70,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
     </v-btn>
-
     <v-btn class="mt-2">
       <v-icon size="large">mdi-web</v-icon>
       <v-menu activator="parent">
@@ -87,25 +80,30 @@
         </v-list>
       </v-menu>
     </v-btn>
-
   </v-app-bar>
 </template>
 
 <script setup>
   import { authStore } from '@/store/auth'
-  const auth = authStore()
   import { useRouter } from 'vue-router'
+  const auth = authStore()
   const router = useRouter()
 
   const redirectPage = (path) => {
-    router.push(path)
+    if(router.currentRoute.value.path === path)
+    {
+      router.go()
+    } else {
+      router.push(path)
+    }
+    
   }
 
   const handleSignout = async () => {
     await auth.signout()
     router.push("/")
   }
-
+  
   const changeLanguage = async (locale) => {
     localStorage.setItem("locale", locale)
     router.go()

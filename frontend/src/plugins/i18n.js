@@ -42,7 +42,15 @@ export const i18n = createI18n ({
         cancel: "Cancel",
         formatError: "Please review fields",
         delete: "Delete",
-        ensure: "Are you sure?"
+        ensure: "Are you sure?",
+        usingUnit: "Using Unit",
+        dateRange: "Date Range",
+        usageKW: "Usage (Kw)",
+        usageCost: "Usage Cost",
+        discount: "Discount",
+        yes: "Yes",
+        no: "No",
+        factoryDetails: "Factory Details"
       }
     },
     tr : {
@@ -82,7 +90,15 @@ export const i18n = createI18n ({
         cancel: "Vazgeç",
         formatError: "Lütfen alanları kontrol ediniz",
         delete: "Sil",
-        ensure: "Emin misiniz?"
+        ensure: "Emin misiniz?",
+        usingUnit: "Kullanan Birim",
+        dateRange: "Tarih Aralığı",
+        usageKW: "Kullanım (Kw)",
+        usageCost: "Kullanım Bedeli",
+        discount: "İndirim",
+        yes: "Evet",
+        no: "Hayır",
+        factoryDetails: "Fabrika Detayları"
       }
     }
   }

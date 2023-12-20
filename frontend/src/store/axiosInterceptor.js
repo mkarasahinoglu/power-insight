@@ -1,6 +1,5 @@
 import axios from "axios"
 const axiosInterceptor = axios.create()
-
 import router from "@/router"
 import { refreshToken } from "./auth"
 import { useErrorStore } from "./error"
@@ -18,11 +17,9 @@ axiosInterceptor.interceptors.response.use((response) => response,
       )
       if(newAccessToken) {
         error.config.headers.Authorization = `Bearer ${newAccessToken}`
-        
         return axiosInterceptor(error.config)
       }
     }
-
     if(error?.response?.status === 500) {
       errorStore.handleError(t("message.internalServerError"))
     }
@@ -46,11 +43,9 @@ axiosInterceptor.interceptors.request.use(
   (config) => {
     const user = JSON.parse(localStorage.getItem('user')) || {}
     const accessToken = user.accessToken || ''
-
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
     }
-    
     return config
   },
   (error) => {

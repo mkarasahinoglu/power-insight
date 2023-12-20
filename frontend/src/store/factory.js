@@ -33,10 +33,6 @@ export const factoryStore = defineStore('factory', {
     async deleteFactory(factoryId) {
       const deletedFactory = await axiosInterceptor.delete(API_URL + `/${factoryId}`)
       return !!deletedFactory
-    },
-    async getFactoryDetails(factoryId) {
-      const factoryDetails = await axiosInterceptor.get(API_URL + `/${factoryId}` + "/details")
-      console.log(factoryDetails?.data)
     }
   }
 })
