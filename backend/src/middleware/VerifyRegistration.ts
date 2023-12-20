@@ -28,6 +28,5 @@ export class VerifyRegistration implements NestMiddleware {
         err.status || HttpStatus.INTERNAL_SERVER_ERROR
       )
     }
-    
   }
 }

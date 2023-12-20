@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Param, Body, HttpException } from "@nestjs/common"
+import { Controller, Get, Put, Param, Body, HttpException, Post, Delete } from "@nestjs/common"
 import { FactoryDetailsService } from "./factory_details.service"
 import { UpdateFactoryDetailsDto } from "./dto/updateFactoryDetails.dto"
 
@@ -33,4 +33,38 @@ export class FactoryDetailsController{
       )
     }
   }
+
+  @Post()
+	async createFactoryDetails(
+    @Param("factoryId") factoryId:string,
+		@Body() updateFactoryDetailsDto: UpdateFactoryDetailsDto
+	) {
+		try {
+			const createdFactory = await this.factoryDetailsService.createFactoryDetails(
+				factoryId,
+        updateFactoryDetailsDto
+			)
+			return createdFactory
+		}
+		catch(err) {
+			throw new HttpException(
+        err.message,
+        err.status
+      )
+		}
+	}
+
+  @Delete(":id")
+	async deleteFactoryDetails(@Param("id") id: string ) {
+		try {
+			const deletedFactoryDetails = await this.factoryDetailsService.deleteFactoryDetails(id)
+			return deletedFactoryDetails
+		}
+		catch(err) {
+			throw new HttpException(
+        err.message,
+        err.status
+      )
+		}
+	}
 }

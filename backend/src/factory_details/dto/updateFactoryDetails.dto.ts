@@ -4,6 +4,7 @@ import {
   IsNumber,
   IsBoolean,
   Validate,
+	IsOptional
 } from "class-validator";
 import { DateRangeValidator } from "src/middleware/DateRangeValidator"
 
@@ -27,4 +28,8 @@ export class UpdateFactoryDetailsDto {
 	@IsNotEmpty()
 	@IsBoolean()
 	discount: boolean
+
+	@IsOptional()
+	@IsNumber()
+	factory_id?: number
 }

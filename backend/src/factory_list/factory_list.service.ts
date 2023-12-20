@@ -16,7 +16,7 @@ export class FactoryListService {
 				free_membership
 				FROM
 				factory_list
-				ORDER BY id`
+				ORDER BY name`
 			)
 			return factories.rows
 		}
