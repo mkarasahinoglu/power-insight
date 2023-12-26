@@ -8,7 +8,7 @@
             :rules="[auth.passwordRules.required,auth.passwordRules.length,auth.passwordRules.numeric,auth.passwordRules.uppercase]" 
             type="password" variant="outlined"></v-text-field>
           <v-select class="mt-2" v-model="role" :items="['Admin','Editor']" :label="$t('message.role')" variant="outlined"></v-select>
-          <v-btn class="me-4" type="submit">
+          <v-btn class="me-4" type="submit" :loading="loading">
             {{ $t("message.register") }}
           </v-btn>
         </v-form>
@@ -31,6 +31,7 @@
   const email = ref("")
   const password = ref("")
   const role = ref(null)
+  const loading = ref(false)
 
   const handleRegister = async () => {
     auth.registerMessage = null
@@ -41,7 +42,9 @@
       role: role.value
     }
     
+    loading.value = true
     await auth.register(newUser)
+    loading.value = false
 
     if(auth.registerMessage===true) {
       name.value=""

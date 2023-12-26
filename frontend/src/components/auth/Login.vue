@@ -5,7 +5,7 @@
           <v-text-field v-model="email" :label="$t('message.email')" variant="outlined"></v-text-field>
           <v-text-field v-model="password" :label="$t('message.password')" type="password" variant="outlined"></v-text-field>
           <v-checkbox v-model="rememberOption" :label="$t('message.rememberMe')" type="checkbox"></v-checkbox>
-          <v-btn class="me-4" type="submit">
+          <v-btn class="me-4" type="submit" :loading="loading">
             {{ $t("message.login") }}
           </v-btn>
         </v-form>
@@ -26,6 +26,7 @@
   const rememberOption = ref(false)
   import { useRouter } from 'vue-router'
   const router = useRouter()
+  const loading = ref(false)
 
   const handleSignin = async () => {
     auth.loginMessage = null
@@ -33,7 +34,9 @@
       email : email.value,
       password : password.value
     }
+    loading.value = true
     await auth.signin(signInUser,rememberOption.value)
+    loading.value = false
     router.push('/')  
   }
 
