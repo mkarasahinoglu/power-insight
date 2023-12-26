@@ -10,3 +10,5 @@ Timus Fullstack Bootcamp Capstone Project
 - Vuetify
 - Axios
 - Pinia
+## Project is currently live
+https://power-insight.vercel.app/
