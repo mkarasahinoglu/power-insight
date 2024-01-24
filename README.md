@@ -4,6 +4,7 @@ Timus Fullstack Bootcamp Capstone Project
 - Node.js
 - Nest.js
 - Elasticsearch
+- MongoDB
 - PostgreSQL
 - JSON Web Tokens
 - Vue.js
