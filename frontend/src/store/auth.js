@@ -44,6 +44,9 @@ export const authStore = defineStore('auth', {
           if(err.response.data.statusCode === 500) {
             this.registerMessage = t("message.internalServerError")
           }
+          else if (err.response.data.statusCode === 409) {
+            this.registerMessage = t("message.registerExistError")
+          }
           else {
             this.registerMessage = t("message.registerError")
           }
