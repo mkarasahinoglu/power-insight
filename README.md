@@ -1,5 +1,5 @@
 # PowerInsight
-Timus Fullstack Bootcamp Capstone Project
+Web app as a factory management system. View factories, units, energy usages, membership informations, and employee numbers. Create, update, or remove factories and units anytime.
 ## Technologies
 - Node.js
 - Nest.js
@@ -12,4 +12,4 @@ Timus Fullstack Bootcamp Capstone Project
 - Axios
 - Pinia
 ## Project is currently live
-https://power-insight.vercel.app/
+[PowerInsight](https://power-insight.vercel.app/)
